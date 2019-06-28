@@ -21,8 +21,8 @@ module.exports = app => {
       app
         .db("users")
         .insert({ name: req.body.name, email: req.body.email, password })
-        .then(_ => req.status(204).send()) //status 204 - Sucesso sem dado retornado
-        .catch(err => res.status(400).json(err)); //retorna menssagem de erro
+        .then(_ => res.status(204).send()) //status 204 - Sucesso sem dado retornado
+        .catch(err => res.status(500).json(err)); //retorna menssagem de erro do lado do servidor, 400 erro do lado do cliente validação
     });
   };
 

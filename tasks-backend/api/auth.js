@@ -10,7 +10,8 @@ module.exports = app => {
     //knex é baseado em promise
     const user = await app
       .db("users")
-      .where({ email: req.body.email })
+      .whereRaw("LOWER(email) = LOWER(?)", req.body.email) //case insensitive (where cru)
+      //.where({ email: req.body.email })
       .first();
 
     if (user) {

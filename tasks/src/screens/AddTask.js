@@ -16,10 +16,19 @@ import {
 import moment from "moment";
 import commonStyles from "../commonStyles";
 
-const initialState = { desc: "", date: new Date() };
-
 export default class AddTask extends Component {
-  state = { ...initialState };
+  constructor(props) {
+    super(props);
+    this.state = this.getInitialState();
+  }
+
+  getInitialState = () => {
+    return {
+      desc: "",
+      date: new Date()
+    };
+  };
+
   save = () => {
     if (!this.state.desc.trim()) {
       Alert.alert("Dados inválidos", "Informe uma descrição para a tarefa");
@@ -27,7 +36,6 @@ export default class AddTask extends Component {
     }
     const data = { ...this.state };
     this.props.onSave(data);
-    this.setState({ ...initialState });
   };
 
   handleDateAndroidChanged = () => {
@@ -66,12 +74,16 @@ export default class AddTask extends Component {
         </TouchableOpacity>
       );
     }
+    {
+      /* onShow  Pega o estado inicial sempre que o modal for exibido (onForeground) */
+    }
     return (
       <Modal
         onRequestClose={this.props.onCancel}
         visible={this.props.isVisible}
         animationType="slide"
         transparent={true}
+        onShow={() => this.setState({ ...this.getInitialState() })}
       >
         <TouchableWithoutFeedback onPress={this.props.onCancel}>
           <View style={styles.offset} />

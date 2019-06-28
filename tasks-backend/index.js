@@ -17,6 +17,10 @@ consign() //carrega todos os dados dos módulos dentro de app
 
 app.db = db;
 
+app.get("/", (req, res) => {
+  res.status(200).send("Meu Backend");
+});
+
 app.listen(3000, () => {
-  console.log("Backend executando...");
+  console.log("Backend ok...");
 });
