@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import { connect } from 'react-redux'; //conectará o componente login com o Redux
+import {login} from '../store/actions/user';
+
 import {
   View,
   Text,
@@ -34,11 +37,13 @@ const styles = StyleSheet.create({
 
 class Login extends Component {
   state = {
+    name: "Temporário",
     email: "",
     password: ""
   };
 
   login = () => {
+    this.props.onLogin({ ...this.state })
     this.props.navigation.navigate("Profile");
   };
 
@@ -73,4 +78,16 @@ class Login extends Component {
   }
 }
 
-export default Login;
+//método que mapeará as actions e fará o dispatch (despacho)
+const mapDispatchToProps = dispatch => {
+  return {
+    onLogin: user => dispatch(login(user)) //encaminha a action para todos os reducers
+  }
+}
+
+//export default Login;
+//ligação do componente com o redux
+export default connect(
+                        null, // não mapeando nenhum estado da propriedade
+                        mapDispatchToProps
+                        )(Login)

@@ -1,8 +1,9 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { StyleSheet, View, Image, Dimensions } from "react-native";
 import Author from "./Author";
 import Comments from "./Comments";
-import AddComment from './AddComment';
+import AddComment from "./AddComment";
 
 const styles = StyleSheet.create({
   container: {
@@ -17,15 +18,26 @@ const styles = StyleSheet.create({
 
 class Post extends Component {
   render() {
+    const addComment = this.props.name ? (
+      <AddComment postId={this.props.id} />
+    ) : null;
     return (
       <View style={styles.container}>
         <Image source={this.props.image} style={styles.image} />
         <Author email={this.props.email} nickname={this.props.nickname} />
         <Comments comments={this.props.comments} />
-        <AddComment />
+        {addComment}
       </View>
     );
   }
 }
 
-export default Post;
+const mapStateToProps = ({ user }) => {
+  return {
+    name: user.name
+  };
+};
+
+export default connect(mapStateToProps)(Post);
+
+//export default Post;
